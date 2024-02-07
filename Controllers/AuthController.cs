@@ -15,10 +15,13 @@ namespace Authentication.Controllers
     {
         public static User user = new User();
         private readonly IConfiguration configuration;
+       
+
 
         public AuthController(IConfiguration configuration)
         {
             this.configuration = configuration;
+            
         }
 
         [HttpPost("Registered")]
@@ -48,6 +51,7 @@ namespace Authentication.Controllers
 
             string token = CreateToken(user);
 
+
             return Ok(token);
         }
 
@@ -55,18 +59,14 @@ namespace Authentication.Controllers
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.UserName)
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Role, "Admin")
             };
 
-            // Generate a secure key for HMACSHA512
-            var key = new byte[64]; // 512 bits
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(key);
-            }
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
+                configuration.GetSection("AppSettings:Token").Value));
 
-            var securityKey = new SymmetricSecurityKey(key);
-            var creds = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512Signature);
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var token = new JwtSecurityToken(
                 claims: claims,
@@ -83,7 +83,7 @@ namespace Authentication.Controllers
             using (var hmac = new HMACSHA512())
             {
                 passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
         }
 
@@ -91,15 +91,8 @@ namespace Authentication.Controllers
         {
             using (var hmac = new HMACSHA512(passwordSalt))
             {
-                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-                for (int i = 0; i < computedHash.Length; i++)
-                {
-                    if (computedHash[i] != passwordHash[i])
-                    {
-                        return false;
-                    }
-                }
-                return true;
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                return computedHash.SequenceEqual(passwordHash);
             }
         }
     }

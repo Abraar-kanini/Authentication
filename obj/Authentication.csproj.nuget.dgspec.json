@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Welcome\\source\\repos\\Authentication\\Authentication.csproj": {}
+    "C:\\Users\\Welcome\\Desktop\\Authentication\\Authentication\\Authentication.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Welcome\\source\\repos\\Authentication\\Authentication.csproj": {
+    "C:\\Users\\Welcome\\Desktop\\Authentication\\Authentication\\Authentication.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Welcome\\source\\repos\\Authentication\\Authentication.csproj",
+        "projectUniqueName": "C:\\Users\\Welcome\\Desktop\\Authentication\\Authentication\\Authentication.csproj",
         "projectName": "Authentication",
-        "projectPath": "C:\\Users\\Welcome\\source\\repos\\Authentication\\Authentication.csproj",
+        "projectPath": "C:\\Users\\Welcome\\Desktop\\Authentication\\Authentication\\Authentication.csproj",
         "packagesPath": "C:\\Users\\Welcome\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Welcome\\source\\repos\\Authentication\\obj\\",
+        "outputPath": "C:\\Users\\Welcome\\Desktop\\Authentication\\Authentication\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Welcome\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,6 +40,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[6.0.26, )"
+            },
             "Microsoft.IdentityModel.Tokens": {
               "target": "Package",
               "version": "[7.3.1, )"
@@ -47,6 +51,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"
+            },
+            "Swashbuckle.AspNetCore.Filters": {
+              "target": "Package",
+              "version": "[8.0.0, )"
             },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
