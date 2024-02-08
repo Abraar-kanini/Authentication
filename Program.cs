@@ -1,5 +1,8 @@
 using System.Text;
+using Authentication.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
@@ -35,6 +38,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false
         };
     });
+builder.Services.AddDbContext<AuthenticationDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("Authentication")));
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
